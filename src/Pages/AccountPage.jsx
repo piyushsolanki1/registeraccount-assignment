@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 
 const AccountPage = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,12 +9,11 @@ const AccountPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    if (storedUser) {
-      setName(storedUser.name || "");
-      setEmail(storedUser.email || "");
-      setPassword(storedUser.password || "");
-    }
-  }, []);
+    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+    setName(storedUser.name || "");
+    setEmail(storedUser.email || "");
+    setPassword(storedUser.password || "");
+  }, []); // runs only once when component loads
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -62,13 +59,13 @@ const AccountPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
+              />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-orange-600"
               >
-                {showPassword ? <EyeClosed/> : <Eye />}
+                {showPassword ? <EyeClosed /> : <Eye />}
               </button>
             </div>
           </div>
@@ -85,10 +82,8 @@ const AccountPage = () => {
           <p className="text-green-600 text-center mt-4 font-medium">{message}</p>
         )}
       </div>
-      
     </div>
   );
 };
 
 export default AccountPage;
-
